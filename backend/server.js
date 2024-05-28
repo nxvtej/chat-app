@@ -3,14 +3,14 @@ import dotenv from "dotenv";
 
 import authRoutes from"./routes/auth.routes.js";
 import connectToMongoDB from "./db/connectToMongoDB.js";
+
 const app = express();
 dotenv.config();
 const PORT = process.env.PORT;
 
 
-app.get("/", (req, res) => {
-res.send("gellp worlkd")
-})
+
+app.use(express.json());
 
 app.use("/api/auth", authRoutes);
 
