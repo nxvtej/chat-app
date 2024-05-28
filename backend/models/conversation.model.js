@@ -6,7 +6,7 @@ const conversationSchema = new mongoose.Schema({
             ref: "User",
         }
     ],
-    participants: [
+    messages: [
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Message",
