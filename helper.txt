@@ -1,0 +1,4 @@
+openssl rand -base64 32 used to generaste jwtPassword fro sign
+
+        secure: process.env.NODE_ENV !== "development"
+added this to convey we are in development so cookie can have secure true deplotyment
