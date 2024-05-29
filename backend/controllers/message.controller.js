@@ -55,9 +55,12 @@ export const getMessages = async (req, res) => {
 
         const {id: userToChatId} = req.params;
         const senderId = req.user._id; //coming from protect route
+        
         const conversation = await Conversation.findOne({
             participants: {$all: [senderId, userToChatId]},
-        }).populate("messages");
+        }).populate("messages");  //this gives each messages on by one
+
+        if(!conversation) return res.status(200).json([]);
 
         res.status(200).json(conversation.messages);
     } catch (error){
