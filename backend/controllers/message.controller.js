@@ -35,9 +35,12 @@ export const sendMessage = async (req, res) => {
             conversation.messages.push(newMessage._id);
         }
 
-        await conversation.save();
-        await newMessage.save();
-        
+        // socket.io will come here for real time
+
+        // await conversation.save();
+        // await newMessage.save();
+
+        await Promise.all([conversation.save(), newMessage.save()]); //both run at same time
         res.status(201).json(newMessage);
     } catch(error){
         console.log("error in sendMessage controller: ", error.message);
@@ -46,3 +49,19 @@ export const sendMessage = async (req, res) => {
         });
     }
 };
+
+export const getMessages = async (req, res) => {
+    try {
+
+        const {id: userToChatId} = req.params;
+        const senderId = req.user._id; //coming from protect route
+        const conversation = await Conversation.findOne({
+            participants: {$all: [senderId, userToChatId]},
+        }).populate("messages");
+
+        res.status(200).json(conversation.messages);
+    } catch (error){
+        console.log("error in getMessages", error.message);
+        res.status(500).json({error: "interanl server error"});
+    }
+}
