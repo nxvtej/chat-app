@@ -4,11 +4,13 @@ import generateTokenAndSetCookie from "../utils/generateToken.js";
 
 export const signup = async (req, res) => {
     try{
-    const { fullName, username, password, confirmpassword, gender} = req.body;
     
-    if(password != confirmpassword){
+        console.log('Received request body:', req.body);
+    const { fullName, username, password, confirmPassword, gender} = req.body;
+    
+    if(password !== confirmPassword){
         return res.status(400).json({
-            error:"passwords doesn't match"
+            error:"passwords doesn't match comming from server side"
         })
     }
 
