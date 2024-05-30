@@ -1,10 +1,34 @@
-import React from 'react'
-import { Route, Routes } from "react-router-dom"
+import { useState } from 'react'
 import { Link } from "react-router-dom";
-
-
 import { GenderCheckbox } from './GenderCheckbox.jsx'
+import useSignup from '../../hooks/useSignup.js';
+
 export const SignUp = () => {
+
+	const [inputs, setInputs] = useState({
+		fullName: '',
+		username: '',
+		password: '',
+		confirmPassword: '',
+		gender: '',
+	});
+
+	// for handling checkbox change 
+	
+	const { loading, signup }= useSignup();
+
+	const handCheckboxChange = (gender) => {
+		setInputs({...inputs, gender});
+	}
+
+	// handling form submit 
+	const handleSubmit = async (e) => {
+		e.preventDefault(); //because by deault it refreshes and submit the page
+							// now if i use this then console has my output
+			// console.log(inputs);
+		await signup(inputs) //signup returning from hooks files
+	}
+	
   return <div  className='flex flex-col item-center justify-center min-w-96 mx-auto'>
 
 <div className='w-full p-6 rounded-lg shadow-md bg-gray-400 bg-clip-padding backdrop-filter backdrop-blur-lg
@@ -14,7 +38,7 @@ export const SignUp = () => {
         Sign Up <span className='text-blue-500'>ChitChat</span>
     </h1>
 
-    <form >
+    <form onSubmit={handleSubmit}>
 
     <div>
 		<label className='label p-2'>
@@ -24,8 +48,8 @@ export const SignUp = () => {
 				type='text'
 				placeholder='Navdeep Singh'
 				className='w-full input input-bordered  h-10'
-				// value={inputs.fullName}
-				// onChange={(e) => setInputs({ ...inputs, fullName: e.target.value })}
+				value={inputs.fullName}
+				onChange={(e) => setInputs({ ...inputs, fullName: e.target.value })}
 			/>
 	</div>
 
@@ -37,8 +61,8 @@ export const SignUp = () => {
 				type='text'
 				placeholder='navdeep'
 				className='w-full input input-bordered  h-10'
-				// value={inputs.fullName}
-				// onChange={(e) => setInputs({ ...inputs, fullName: e.target.value })}
+				value={inputs.username}
+				onChange={(e) => setInputs({ ...inputs, username: e.target.value })}
 			/>
 	</div>
 
@@ -50,8 +74,8 @@ export const SignUp = () => {
 				type='password'
 				placeholder='Enter Password'
 				className='w-full input input-bordered  h-10'
-				// value={inputs.fullName}
-				// onChange={(e) => setInputs({ ...inputs, fullName: e.target.value })}
+				value={inputs.password}
+				onChange={(e) => setInputs({ ...inputs, password: e.target.value })}
 			/>
 	</div>
 
@@ -63,21 +87,25 @@ export const SignUp = () => {
 				type='password'
 				placeholder='Confirm Password'
 				className='w-full input input-bordered  h-10'
-				// value={inputs.fullName}
-				// onChange={(e) => setInputs({ ...inputs, fullName: e.target.value })}
+				value={inputs.confirmPassword}
+				onChange={(e) => setInputs({ ...inputs, confirmPassword: e.target.value })}
 			/>
 	</div>
 
-    <GenderCheckbox />
+    <GenderCheckbox onCheckboxChange = {handCheckboxChange} selectedGender = {inputs.gender} />
 
-    <Link to={"/login"} className='text-sm hover:underline hover-text-blue-600 mt-2 inline-block' 
-    href="#">
+    <Link to={"/login"} 
+	className='text-sm hover:underline hover-text-blue-600 mt-2 inline-block' 
+	href="#"
+    >
         Already have an account? Login
     </Link>
 
     <div>
-        <button className='btn btn-block btn-sm mt-2'>Sign Up</button>
-    </div>
+		<button className='btn btn-block btn-sm mt-2 border border-slate-700' disabled={loading}>
+		{loading ? <span className='loading loading-spinner'></span> : "Sign Up"}
+		</button>
+	</div>
     </form>
     </div>
 
