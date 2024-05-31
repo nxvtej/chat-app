@@ -3,13 +3,15 @@ import Message from './Message'
 import useGetMessages from '../../hooks/useGetMessages'
 import MessageSkeleton from '../skeletons/MessageSkeleton';
 import { useEffect,  useRef } from 'react';
+import useListenMessages from '../../hooks/useListenMessages';
 
 const Messages = () => 
   {
 
   const {messages, loading} = useGetMessages();
   console.log("messages: ", messages);
-  
+  useListenMessages(); //this is where we are listening for meessages
+    // calling listenmessage hook
 
   const lastMessageRef = useRef();
 
@@ -48,7 +50,7 @@ const Messages = () =>
   );
 };
 
-export default Messages
+export default Messages;
 
 
 

@@ -13,18 +13,21 @@ const io = new Server(server, {
     }
 });
 
+export const getReceiverSocketId = (receiverId) => {
+    return userSocketMap[receiverId];
+}
 
 // for front end setOnlineusers, via socketid
 const userSocketMap = {}; //{userId: socketId}
 
 io.on('connection', (socket)=> {
-    console.log('New client connected',socket.id);
+    console.log('a user connected',socket.id);
 
 
         const userId = socket.handshake.query.userId; //using that argument just passed in fronend
         if(userId != "undefined"){
             userSocketMap[userId] = socket.id;
-        }
+        } 
         io.emit("getOnlineUsers", Object.keys(userSocketMap)); //now this event will be sent to all connected clients
 
 
@@ -36,4 +39,4 @@ io.on('connection', (socket)=> {
         // same for deleting when user goes offline;
     })
 })
-export { app, io, server }
+export { app, io, server };
