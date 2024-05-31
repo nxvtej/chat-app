@@ -5,10 +5,11 @@ export const useAuthContext = () => {
     return useContext(AuthContext);
 }
 
-export const AuthContextProvider = ({ childern }) => {
+export const AuthContextProvider = ({ children }) => {
     const [authUser, setAuthUser] = useState(JSON.parse(localStorage.getItem("chat-user")) || null)
     
-    return <AuthContextProvider value = {{authUser, setAuthUser}}>
-        {childern}
-    </AuthContextProvider>
+    return (<AuthContext.Provider value = {{authUser, setAuthUser}}>
+        {children} 
+    </AuthContext.Provider>);
+    //remember how much problem u had with this typo
 }
