@@ -62,11 +62,26 @@ export const signup = async (req, res) => {
 export const login = async (req, res) => {
 
     try {
-        const {username, password} = req.body;
-        const user = await User.findOne({username});
-        const isPasswordCorrect = await bcrypt.compare(password, user?.password || "");
+ // Log the incoming request body
+ console.log("Received login request with body:", req.body);
 
-        if(!user || !isPasswordCorrect){
+
+ const {username, password} = req.body;
+ // Validate request body
+ if (!username || !password) {
+    return res.status(400).json({ error: "Please provide both username and password." });
+}
+        
+        
+        const user = await User.findOne({username});
+        if (!user) { console.log("user not found");}
+        console.log("user foind in database", user);
+
+        const isPasswordCorrect = await bcrypt.compare(password, user.password);
+
+
+        console.log("Password comparison result:", isPasswordCorrect);
+        if( !isPasswordCorrect){
             return res.status(400).json({error: "inavlid login credentials"});
 
         }

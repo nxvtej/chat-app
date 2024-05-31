@@ -8,3 +8,22 @@ const {id} = req.params;
 const id = req.params.id;
 
 same thing
+
+
+now after coding all hooks
+for login
+logout
+signup
+
+everything works just as expected
+
+now moving towards conversations 
+
+conversations that are on left side inside sidebar
+will be acccessed as conversation
+
+and to do that use zustand to have a global state adn use it in entire applications
+same as AuthContext usee..
+
+but using zustand as other alternative to createContext and setContext
+ 
