@@ -27,3 +27,12 @@ same as AuthContext usee..
 
 but using zustand as other alternative to createContext and setContext
  
+
+ now upto fixed search issue everything is easy
+ moving to next part to use socket.io
+ cause we need to refresh evertime one send message as meesage comes to express server and then go to db
+ then fetched from database
+
+ instead of doing this lets make it real time
+ this can be done creating socket server over express server;
+ 
