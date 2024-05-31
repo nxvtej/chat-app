@@ -1,6 +1,7 @@
 import { useAuthContext  } from "../../../context/AuthContext"
 import useConversation from "../../zustand/useConversation";
 // import useSendMessage from "../../hooks/useSendMessage"
+import { extractTime } from "../../utils/extractTime";
 
 // now this takes message 
 const Message = ({message}) => {
@@ -8,6 +9,9 @@ const Message = ({message}) => {
   const {authUser} = useAuthContext();
   const { selectedConversation } = useConversation();
   const fromMe = message.senderId === authUser._id;  //populated it in backend 
+
+
+  const formatedTime = extractTime(message.createdAt);
 
   const chatClassName = fromMe ? 'chat-end' : 'chat-start';
   const profilePic = fromMe ? authUser.profilePic : selectedConversation?.profilePic;
@@ -34,11 +38,10 @@ const Message = ({message}) => {
 {message.message}
 </div>
 <div className='chat-footer opacity-50 text-xs flex gap-1 items-center '>
-  12:42
-
+  {formatedTime}
 </div>
     </div>
-  )
-}
+  );
+};
 
 export default Message
